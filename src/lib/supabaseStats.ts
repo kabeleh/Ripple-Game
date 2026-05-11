@@ -1,6 +1,6 @@
 import { supabase } from '@/integrations/supabase/client';
 import { getStats, getGameState, GameStats, GameState } from './storage';
-import { getDateInHST } from './utils';
+import { getDateInHST, shiftHSTDate } from './utils';
 
 export interface SupabaseUserStats {
   user_id: string;
@@ -363,10 +363,8 @@ export const updateUserStats = async (
       return;
     }
 
-    // Derive "yesterday" from the same played date to avoid midnight race conditions.
-    const d = new Date(`${today}T12:00:00`);
-    d.setDate(d.getDate() - 1);
-    const yesterdayStr = getDateInHST(d);
+    // Derive yesterday in HST regardless of the user's local timezone.
+    const yesterdayStr = shiftHSTDate(today, -1);
 
     let newStreak = 1;
     if (existingStats.last_played_date === yesterdayStr) {

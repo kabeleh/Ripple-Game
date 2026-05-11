@@ -24,6 +24,18 @@ export function getDateInHST(date: Date = new Date()): string {
 }
 
 /**
+ * Shift an HST date string by a number of calendar days.
+ *
+ * This parses the base date as noon in explicit HST (-10:00), so callers
+ * get stable results regardless of the user's local timezone.
+ */
+export function shiftHSTDate(baseDate: string, dayOffset: number): string {
+  const d = new Date(`${baseDate}T12:00:00-10:00`);
+  d.setDate(d.getDate() + dayOffset);
+  return getDateInHST(d);
+}
+
+/**
  * Get yesterday's date in HST as YYYY-MM-DD.
  *
  * Computes the HST "today" first, then subtracts one calendar day,
@@ -31,10 +43,7 @@ export function getDateInHST(date: Date = new Date()): string {
  */
 export function getYesterdayInHST(): string {
   const todayStr = getDateInHST();
-  // Parse at noon to avoid any edge-case timezone shifts
-  const d = new Date(todayStr + 'T12:00:00');
-  d.setDate(d.getDate() - 1);
-  return getDateInHST(d);
+  return shiftHSTDate(todayStr, -1);
 }
 
 /**

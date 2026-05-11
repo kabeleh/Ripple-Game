@@ -4071,8 +4071,8 @@ export const getDayNumber = (date: Date = new Date()): number => {
   const launchDateStr = LAUNCH_DATE;
   
   // Calculate days between the two date strings
-  const currentDate = new Date(dateStr + 'T12:00:00');
-  const launchDate = new Date(launchDateStr + 'T12:00:00');
+  const currentDate = new Date(dateStr + 'T12:00:00-10:00');
+  const launchDate = new Date(launchDateStr + 'T12:00:00-10:00');
   const diffTime = currentDate.getTime() - launchDate.getTime();
   return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 };
@@ -4108,6 +4108,6 @@ export const isToday = (dateStr: string): boolean => {
  * Get the day number for a specific date string.
  */
 export const getDayNumberForDate = (dateStr: string): number => {
-  const date = new Date(dateStr + 'T12:00:00');
+  const date = new Date(dateStr + 'T12:00:00-10:00');
   return getDayNumber(date);
 };

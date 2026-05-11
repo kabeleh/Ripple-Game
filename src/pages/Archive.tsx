@@ -81,7 +81,7 @@ export default function Archive() {
   }, [user, archivedPuzzles]);
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr + 'T00:00:00');
+    const date = new Date(dateStr + 'T00:00:00-10:00');
     return date.toLocaleDateString('en-US', {
       weekday: 'short',
       month: 'short',
